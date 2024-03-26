@@ -7,6 +7,7 @@ public class CurrentNode {
     public int is_day;
     public int cloud_cover;
     public double wind_speed_10m;
+    public double wind_gusts_10m;
     public int relative_humidity_2m;
     public double pressure_msl;
     public double surface_pressure;

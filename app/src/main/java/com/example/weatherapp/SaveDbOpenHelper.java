@@ -1,7 +1,5 @@
 package com.example.weatherapp;
 
-import static java.sql.Types.INTEGER;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,9 +15,6 @@ public class SaveDbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL("create table save ( cur_weather INTEGER,"
-//                + "cur_temp" + " REAL, " + "cur_app_temp" + " REAL, "
-//                + "is_day INTEGER, curCload INTEGER, curSpeed REAL, curHum INTEGER, curSeaPres REAL, curSurf REAL);");
         db.execSQL("create table save (str_msg TEXT);");
         ContentValues contentValue = new ContentValues();
         contentValue.put("str_msg", "");

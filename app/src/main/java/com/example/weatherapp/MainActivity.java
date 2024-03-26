@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.TimeZone;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.net.URL;
@@ -61,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.close();
 
         Spinner spinner = findViewById(R.id.citySpinner);
-//        ArrayList<String> cityList = new ArrayList<>(Arrays.asList("Mercury", "Venus", "Earth", "Mars", "Jupiter",
-//                "Saturn", "Uranus", "Neptune", "Pluto", "Charon", "Nix", "Hydra", "Kerberos", "Styx"));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, cityList);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
@@ -70,9 +67,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // parent.getItemAtPosition(pos)  // TextView
-        //ScrollView sView = findViewById(R.id.scrollView2);
-        //sView.setBackground(getResources().getDrawable(R.drawable.ic_launcher_foreground));
         curPos = pos;
         connect();
     }
@@ -102,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView curCloudTv = findViewById(R.id.curCloud);
         TextView curSeaPressureTv = findViewById(R.id.curSeaPressureTv);
         TextView curSurfPressureTv = findViewById(R.id.curSurfPressureTv);
+        TextView curGustsTv = findViewById(R.id.curGustsTv);
+
         curTempTv.setText(weather.temperature_2m+"°C");
         curAppTempTv.setText("Ощущается как " + weather.apparent_temperature+"°C");
         curCloudTv.setText("Облачность: " + weather.cloud_cover+"%");
@@ -109,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         curHumidityTv.setText("Влажность: " + weather.relative_humidity_2m+"%");
         curSeaPressureTv.setText("Давление на уровне моря: " + weather.pressure_msl+"гПа");
         curSurfPressureTv.setText("Поверхностное давление: " + weather.surface_pressure+"гПа");
+        curGustsTv.setText("Порывы ветра: " + weather.wind_gusts_10m+"км/ч");
         switch(weather.weather_code) {
             case 0: curWeatherTv.setText(R.string.weather_0); break;
             case 1: curWeatherTv.setText(R.string.weather_1); break;
@@ -134,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         curCloudTv.setTextColor((weather.is_day == 1) ? Color.BLACK : Color.parseColor("#FFF390"));
         curSeaPressureTv.setTextColor((weather.is_day == 1) ? Color.BLACK : Color.parseColor("#FFF390"));
         curSurfPressureTv.setTextColor((weather.is_day == 1) ? Color.BLACK : Color.parseColor("#FFF390"));
+        curGustsTv.setTextColor((weather.is_day == 1) ? Color.BLACK : Color.parseColor("#FFF390"));
     }
 
     public void connect() {
@@ -148,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 db.close();
 
                 URL url = new URL("https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lng
-                        + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,apparent_temperature,weather_code&timezone=auto");
+                        + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,"
+                        + "cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,"
+                        + "apparent_temperature,weather_code" + "&timezone=" + TimeZone.getDefault().getID());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 int responseCode = connection.getResponseCode();
                 Log.i(TAG, "Server responded with: " + responseCode);
