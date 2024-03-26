@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="weather_0">Ясно</string>
+    <string name="weather_1">Преимущественно ясно</string>
+    <string name="weather_2">Переменная облачность</string>
+    <string name="weather_3">Пасмурно</string>
+    <string name="weather_4548">Туман</string>
+    <string name="weather_515355">Мелкий дождь</string>
+    <string name="weather_5657">Изморозь</string>
+    <string name="weather_616365">Дождь</string>
+    <string name="weather_6667">Ледяной дождь</string>
+    <string name="weather_717375">Cнегопад</string>
+    <string name="weather_77">Град</string>
+    <string name="weather_808182">Ливень</string>
+    <string name="weather_8586">Сильный снегопад</string>
+    <string name="weather_95">Гроза</string>
+    <string name="weather_9699">Гроза с градом</string>
+</resources>
